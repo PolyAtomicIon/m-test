@@ -7,28 +7,38 @@ Airtable.configure({
 class Database {
   constructor() {
     this.base = Airtable.base(process.env.BASE_ID);
+    this.data = [];
+    this.nextPage = null;
+    this.pageSize = 5;
   }
-  async getModels(req, res) {
+  getModels(req, res) {
     try {
+      return new Promise((resolve) => {
+        this.base('models').select({
+          pageSize: this.pageSize,
+          view: "Grid view"
+        }).eachPage((records, fetchNextPage) => {
 
-      const records = await this.base('models').select(
-        {
-          view: "Grid view",
-          maxRecords: 15,
-        }
-      ).all();
+          records.forEach((record) => {
+            let number = record.get("number");
+            let children = record.get("children");
+            if (!children) {
+              children = [];
+            }
 
-      const data = [];
-      records.forEach((record) => {
-        let number = record.get("number");
-        let children = record.get("children");
-        data.push({
-          number,
-          children
+            this.data.push({
+              number,
+              children,
+            });
+
+          });
+
+          this.nextPage = fetchNextPage;
+          resolve();
+        }, function done(err) {
+          if (err) { console.error(err); return; }
         });
       });
-
-      return data;
     } catch (error) {
       console.log(error)
       res.status(400).json({ message: "Registration error" })

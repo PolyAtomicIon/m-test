@@ -3,11 +3,14 @@ const database = require('../Database');
 class Hierarchy {
   async getModels(req, res) {
     try {
-      const records = await database.getModels();
-      res.render("hierarchy",
+      if( !database.nextPage )
+        await database.getModels();
+
+      res.render(
+        "hierarchy",
         {
-          title: "Home",
-          data: records
+          data: database.data,
+          next: database.nextPage
         });
     } catch (error) {
       console.log(error)

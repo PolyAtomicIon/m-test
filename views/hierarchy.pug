@@ -6,11 +6,33 @@ html
     link(rel="shortcut icon" href="/favicon.ico")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     meta(name="theme-color" content="#000000")
-    title #{title} | Hierarchy
+    title Hierarchy
+    link(rel="stylesheet" href="/styles/main.css")
+    link(rel="stylesheet" href="/styles/hierarchy.css")
+
   body
     div#root
       block layout-contents
-        h1 MDOELS
-        ul
-        each word in data
-          li= word.number
+        ul.menu
+          li 
+            a(href="/hierarchy") Hierarchy 
+          li 
+            a(href="/drawings") Drawings 
+          li 
+            a(href="/services") Services 
+
+        h1 Hierarchy View
+        ul.tree
+          each model in data
+            li= model.number
+              ul.tree   
+                each am in model.children
+                  li= am
+
+        button(
+          type='button' 
+          class='loadmore' 
+          value="load more" 
+          onclick='loadMore()') Load More 
+    script.
+      function loadMore() { #{next()} window.location.reload(); }   
