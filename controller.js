@@ -85,7 +85,7 @@ class Controller {
         }
 
         return {
-          id: service.id,
+          name: service.name,
           // date: date.toDateString(),
           date,
         }
