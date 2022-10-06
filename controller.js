@@ -53,11 +53,38 @@ class Controller {
   async getServices(req, res) {
     try {
       await database.getServices();
+      const data = database.services.map(service => {
+        let date = new Date();
+
+        switch (service.intervalUnit) {
+          case 'day':
+            date = new Date(date.setDate(date.getDate() + service.interval));
+            break;
+          case 'week':
+            date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7 * service.interval);
+            break;
+          case 'month':
+            date = new Date(date.setMonth(date.getMonth() + service.interval));;
+            break;
+          case 'year':
+            date = new Date(date.setFullYear(date.getFullYear() + service.interval));
+            break;
+          default:
+            date = new Date(date.setHours(date.getHours() + service.hoursInterval));
+            console.log('error');
+        }
+
+        return {
+          id: service.id,
+          // date: date.toDateString(),
+          date,
+        }
+      });
 
       res.render(
         "services",
         {
-          data: database.services,
+          data,
         }
       );
     } catch (error) {

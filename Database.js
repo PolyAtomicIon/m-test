@@ -121,18 +121,20 @@ class Database {
 
     const records = await this.base('services').select({
       view: "Grid view",
-      fields: ['calendar_interval', 'calendar_interval_unit']
+      fields: ['calendar_interval', 'calendar_interval_unit', 'running_hours_interval']
     }).all();
 
     this.services = records.map(r => {
       const id = r.id;
+      const hoursInterval = r.get('running_hours_interval');
       const interval = r.get('calendar_interval');
       const intervalUnit = r.get('calendar_interval_unit');
-      const date = 'Tomorrow';
 
       return {
         id,
-        date: date,
+        hoursInterval,
+        interval,
+        intervalUnit,
       };
     })
   }

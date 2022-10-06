@@ -22,6 +22,11 @@ html
             a(href="/services") Services 
 
         h1 Services
-        each s in data 
-          p #{s.interval}
-          p #{s.model}
+        ul.tree
+          li 
+            span.col.head ID 
+            span.head | DATE
+          each s in data 
+            li 
+              span.col #{s.id} 
+              span | #{s.date}
