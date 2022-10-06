@@ -71,7 +71,6 @@ class Controller {
             break;
           default:
             date = new Date(date.setHours(date.getHours() + service.hoursInterval));
-            console.log('error');
         }
 
         return {
