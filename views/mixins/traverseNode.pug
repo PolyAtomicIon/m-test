@@ -1,0 +1,5 @@
+mixin traverseNode(node)
+  ul.tree
+    li= node.number
+    each childNode in node.children   
+      +traverseNode(childNode)

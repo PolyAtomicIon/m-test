@@ -1,5 +1,3 @@
-include mixins/traverseNode
-
 block variables
 doctype html
 html
@@ -24,4 +22,17 @@ html
             a(href="/services") Services 
 
         h1 Hierarchy View
-        +traverseNode(node)
+        ul.tree
+          each model in data
+            li= model.number
+              ul.tree   
+                each am in model.children
+                  li= am
+
+        button(
+          type='button' 
+          class='loadmore' 
+          value="load more" 
+          onclick='loadMore()') Load More 
+    script.
+      function loadMore() { #{next()} window.location.reload(); }   

@@ -1,5 +1,3 @@
-include mixins/traverseNode
-
 block variables
 doctype html
 html
@@ -8,7 +6,7 @@ html
     link(rel="shortcut icon" href="/favicon.ico")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     meta(name="theme-color" content="#000000")
-    title Hierarchy
+    title Drawing Models List
     link(rel="stylesheet" href="/styles/main.css")
     link(rel="stylesheet" href="/styles/hierarchy.css")
 
@@ -23,5 +21,9 @@ html
           li 
             a(href="/services") Services 
 
-        h1 Hierarchy View
-        +traverseNode(node)
+        h1 Drawing Models List
+        ul.tree
+          each model in data
+            li asd
+
+            
