@@ -33,7 +33,9 @@ class Database {
       const number = r.get("number");
       if (!this.models[id])
         this.models[id] = new Model(number);
-    })
+    });
+
+    this.isModelsFetched = true;
   }
 
   async getTree() {

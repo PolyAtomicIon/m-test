@@ -1,7 +1,18 @@
 const database = require('./Database');
 
 class Controller {
-  async getModels(req, res) {
+  menu(req, res) {
+    try {
+      res.render(
+        "menu",
+      );
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ message: "Registration error" })
+    }
+  }
+
+  async getTree(req, res) {
     try {
       await database.getTree();
 

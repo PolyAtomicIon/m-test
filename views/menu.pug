@@ -1,3 +1,5 @@
+include mixins/traverseNode
+
 block variables
 doctype html
 html
@@ -6,7 +8,7 @@ html
     link(rel="shortcut icon" href="/favicon.ico")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     meta(name="theme-color" content="#000000")
-    title Services Schedule
+    title Menu
     link(rel="stylesheet" href="/styles/main.css")
     link(rel="stylesheet" href="/styles/hierarchy.css")
 
@@ -20,13 +22,3 @@ html
             a(href="/drawings") Drawings 
           li 
             a(href="/services") Services 
-
-        h1 Services
-        ul.tree
-          li 
-            span.col.head ID 
-            span.head | DATE
-          each s in data 
-            li 
-              span.col #{s.id} 
-              span | #{s.date}
