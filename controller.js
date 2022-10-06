@@ -1,10 +1,9 @@
-const database = require('../Database');
+const database = require('./Database');
 
-class Hierarchy {
+class Controller {
   async getModels(req, res) {
     try {
-      if( !database.rootNode )
-        await database.getTree();
+      await database.getTree();
 
       res.render(
         "hierarchy",
@@ -17,17 +16,15 @@ class Hierarchy {
       res.status(400).json({ message: "Registration error" })
     }
   }
+
   async getDrawings(req, res) {
     try {
-      const data = await database.getDrawings();
+      await database.getDrawings();
 
       res.render(
         "drawings",
         {
-          data,
-          drawingModelsList: (id) => {
-            console.log(id)
-          }
+          data: database.drawings,
         }
       );
     } catch (error) {
@@ -35,14 +32,16 @@ class Hierarchy {
       res.status(400).json({ message: "Registration error" })
     }
   }
-  async getDrawingByNumber(req, res) {
+
+  async getDrawingById(req, res) {
     try {
-      await database.getDrawingByNumber(req.params.number);
+      const id = req.params.id;
+      const models = await database.getDrawingModelsById(id);
 
       res.render(
         "drawingModels",
         {
-          data: database.drawingModels,
+          models,
         }
       );
     } catch (error) {
@@ -50,7 +49,23 @@ class Hierarchy {
       res.status(400).json({ message: "Registration error" })
     }
   }
-  
+
+  async getServices(req, res) {
+    try {
+      await database.getServices();
+
+      res.render(
+        "services",
+        {
+          data: database.services,
+        }
+      );
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ message: "Registration error" })
+    }
+  }
+
 }
 
-module.exports = new Hierarchy()
+module.exports = new Controller()

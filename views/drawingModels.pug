@@ -23,7 +23,9 @@ html
 
         h1 Drawing Models List
         ul.tree
-          each model in data
-            li asd
+          each model in models
+            li= model.parent   
+              ul.tree 
+                li= model.child
 
             

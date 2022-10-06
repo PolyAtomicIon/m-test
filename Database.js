@@ -11,13 +11,19 @@ class Database {
     this.pageSize = 100;
     this.maxRecords = 300;
 
-    this.drawingModels = [];
-
+    this.parentChild = {};
     this.models = {};
+    this.isModelsFetched = false;
+
+    this.drawings = null;
+    this.services = null;
     this.rootNode = null;
   }
 
   async getModels() {
+    if (this.isModelsFetched)
+      return
+
     let records = await this.base("models").select({
       fields: ["number"]
     }).all();
@@ -31,34 +37,33 @@ class Database {
   }
 
   async getTree() {
-    console.log('request')
+    if (this.rootNode)
+      return
+
+    console.log('request');
+
     await this.getModels();
 
-    await new Promise((resolve, reject) => {
-      this.base('model_model').select({
-        pageSize: this.pageSize,
-        maxRecords: this.maxRecords,
-        fields: ["parent_number", "number"],
-        view: "Grid view",
-      }).eachPage(async (records, fetchNextPage) => {
+    const records = await this.base('model_model').select({
+      pageSize: this.pageSize,
+      maxRecords: this.maxRecords,
+      fields: ["id", "parent_number", "number"],
+      view: "Grid view",
+    }).all();
 
-        records.forEach((record) => {
-          let child = record.get("number");
-          let parent = record.get("parent_number");
+    records.forEach((record) => {
+      const childId = record.get("number");
+      const parentId = record.get("parent_number");
 
-          this.models[parent].addChildNode(this.models[child]);
-          this.models[child].setParent(this.models[parent]);
-        })
+      const child = this.models[childId];
+      const parent = this.models[parentId];
 
-        fetchNextPage();
-      }, function done(err) {
-        if (err) {
-          console.error(err);
-          reject();
-          return;
-        }
-        resolve();
-      });
+      this.parentChild[record.id] = {
+        child: child.number,
+        parent: parent.number,
+      };
+      parent.addChildNode(child);
+      child.setParent(parent);
     });
 
     this.rootNode = Object.values(this.models).find(m => {
@@ -68,50 +73,68 @@ class Database {
     return this.rootNode;
   }
 
-  async getModelById(id) {
-    let res = null;
-
-    await new Promise(resolve => {
-      this.base('models').find(id, function (err, record) {
-        if (err) { console.error(err); return; }
-        res = record.get("number");
-        resolve();
-      });
-    });
-
-    return res;
-  }
-
   async getDrawings() {
+    if (this.drawings)
+      return;
+
     const records = await this.base('drawings').select({
       view: "Grid view",
+      fields: ['name']
     }).all();
 
-    const data = [];
-    records.forEach(r => {
+    this.drawings = records.map(r => {
       const id = r.id;
       const name = r.get('name');
-      const models = r.get('model_model');
-      data.push({
+
+      return {
         id,
         name,
-        models
-      })
+      };
     })
+  }
+
+  async getDrawingModelsById(drawingId) {
+    let data = [];
+
+    await this.getTree();
+
+    await new Promise((resolve, reject) => {
+      this.base('drawings').find(drawingId,
+        (err, record) => {
+          if (err) { console.error(err); reject(); return; }
+
+          const models = record.get("model_model");
+          data = models.map(id => {
+            return this.parentChild[id]
+          });
+
+          resolve();
+        });
+    });
 
     return data;
   }
 
-  getDrawingByNumber(number) {
-    return new Promise((resolve, reject) => {
-      this.base('drawings').find(number,
-        (err, record) => {
-          if (err) { console.error(err); reject(); return; }
-          console.log(record);
-          this.drawingModels = record;
-          resolve();
-        });
-    });
+  async getServices() {
+    if (this.services)
+      return;
+
+    const records = await this.base('services').select({
+      view: "Grid view",
+      fields: ['calendar_interval', 'calendar_interval_unit']
+    }).all();
+
+    this.services = records.map(r => {
+      const id = r.id;
+      const interval = r.get('calendar_interval');
+      const intervalUnit = r.get('calendar_interval_unit');
+      const date = 'Tomorrow';
+
+      return {
+        id,
+        date: date,
+      };
+    })
   }
 
 }

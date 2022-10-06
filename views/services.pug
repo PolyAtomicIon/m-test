@@ -21,18 +21,7 @@ html
           li 
             a(href="/services") Services 
 
-        h1 Hierarchy View
-        ul.tree
-          each model in data
-            li= model.number
-              ul.tree   
-                each am in model.children
-                  li= am
-
-        button(
-          type='button' 
-          class='loadmore' 
-          value="load more" 
-          onclick='loadMore()') Load More 
-    script.
-      function loadMore() { #{next()} window.location.reload(); }   
+        h1 Services
+        each s in data 
+          p #{s.interval}
+          p #{s.model}
