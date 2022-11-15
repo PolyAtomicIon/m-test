@@ -4,11 +4,9 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<div align="left">
 
-  <h3 align="center">onai-physics-demo</h3>
-
-  <p align="center">
+  <p align="left">
     Node js, Pug demo fetching and visualising data from <a href="https://airtable.com/">Airtable</a>
     <br />
     <br />
