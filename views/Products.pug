@@ -22,7 +22,12 @@ html
 
           each product in products
               li 
-                a(href=`products/${product.id}` class=' text-blue-500 hover:text-blue-900') #{product.title} - #{product.price}
+                a(href=`add-to-cart/${product.id}` class=' text-blue-500 hover:text-blue-900') #{product.title} - #{product.price}
+
+          h1 Cart
+          each product in cart
+              li 
+                a(href=`/delete-from-cart/${product.id}` class=' text-red-500 hover:text-red-900') #{product.title} - #{product.price}
 
 
         

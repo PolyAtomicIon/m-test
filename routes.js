@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 const controller = require("./controller");
 const path = require("path");
+const data = require("./data.json");
+const fs = require("fs");
 
 router.get("/", (req, res) => {
   //   res.status(200).json({ message: "Hello world !" });
@@ -10,35 +12,53 @@ router.get("/", (req, res) => {
 });
 
 router.get("/products", (req, res) => {
-  const products = [
-    {
-      id: 1,
-      title: "Bread",
-      price: 23,
-    },
-    {
-      id: 2,
-      title: "FDASF",
-      price: 12,
-    },
-    {
-      id: 3,
-      title: "fDAFSF",
-      price: 323,
-    },
-    {
-      id: 4,
-      title: "BreaFSDFd",
-      price: 23,
-    },
-    {
-      id: 5,
-      title: "ADFSD",
-      price: 3454,
-    },
-  ];
+  res.render("Products", { products: data.products, cart: data.cart });
+});
 
-  res.render("Products", { products });
+router.get("/add-to-cart/:id", (req, res) => {
+  const id = +req.params.id;
+
+  const product = data.products.find((p) => p.id === id);
+
+  if (data.cart.find((p) => p.id === id)) {
+    res.redirect("/products");
+    return;
+  }
+
+  data.cart.push(product);
+
+  fs.writeFile(
+    "data.json",
+    JSON.stringify({
+      ...data,
+    }),
+    () => {
+      res.redirect("/products");
+    }
+  );
+});
+
+router.get("/delete-from-cart/:id", (req, res) => {
+  const id = +req.params.id;
+
+  const product = data.products.find((p) => p.id === id);
+
+  if (!product) {
+    res.redirect("/products");
+    return;
+  }
+
+  data.cart = data.cart.filter((p) => p.id !== id);
+
+  fs.writeFile(
+    "data.json",
+    JSON.stringify({
+      ...data,
+    }),
+    () => {
+      res.redirect("/products");
+    }
+  );
 });
 
 router.get("/profile", (req, res) => {
