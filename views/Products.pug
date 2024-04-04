@@ -1,4 +1,4 @@
-include mixins/traverseNode
+include mixins/header
 
 block variables
 doctype html
@@ -8,20 +8,21 @@ html
     link(rel="shortcut icon" href="/favicon.ico")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     meta(name="theme-color" content="#000000")
-    title Hierarchy
-    link(rel="stylesheet" href="/styles/main.css")
+    title Products
     link(rel="stylesheet" href="/styles/hierarchy.css")
+    script(src="https://cdn.tailwindcss.com")
 
   body
     div#root
       block layout-contents
-        ul.menu
-          li 
-            a(href="/hierarchy") Hierarchy 
-          li 
-            a(href="/drawings") Drawings 
-          li 
-            a(href="/services") Services 
+        +header()
 
-        h1 Hierarchy View
-        +traverseNode(node)
+        div.py-20.px-10
+          h1 Products
+
+          each product in products
+              li 
+                a(href=`products/${product.id}` class=' text-blue-500 hover:text-blue-900') #{product.title} - #{product.price}
+
+
+        

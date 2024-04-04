@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <header>
+      <ul
+        class="flex border-b border-gray-500 p-5 list-none gap-2 absolute top-0 left-0 w-full shadow-md bg-gray-100"
+      >
+        <li>
+          <a href="/" class="text-blue-500 hover:text-blue-900"> Home </a>
+        </li>
+        <li>
+          <a href="/products" class="text-blue-500 hover:text-blue-900">
+            Products
+          </a>
+        </li>
+        <li>
+          <a href="/profile" class="text-blue-500 hover:text-blue-900">
+            Profile
+          </a>
+        </li>
+      </ul>
+    </header>
+
+    <main class="py-20 px-10">
+      <div>Products</div>
+
+      <div id="products-list"></div>
+    </main>
+
+    <script>
+      let products = [];
+      const productList = document.getElementById("products-list");
+
+      fetch("/api/products")
+        .then((res) => res.json())
+        .then((data) => {
+          products = data;
+
+          products.forEach((p) => {
+            const product = document.createElement("div");
+            product.innerHTML = `
+              <p>${p.title}</p>              
+              <p>${p.price}</p>              
+            `;
+            product.id = `product${p.id}`;
+            product.className =
+              "p-4 flex justify-between w-[220px] py-10 bg-red-200 border";
+
+            productList.append(product);
+          });
+        });
+    </script>
+  </body>
+</html>

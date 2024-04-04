@@ -3,12 +3,6 @@ var router = express.Router();
 const controller = require("./controller");
 const path = require("path");
 
-router.get("/", (req, res) => {
-  //   res.status(200).json({ message: "Hello world !" });
-
-  res.render("Home");
-});
-
 router.get("/products", (req, res) => {
   const products = [
     {
@@ -18,33 +12,30 @@ router.get("/products", (req, res) => {
     },
     {
       id: 2,
-      title: "FDASF",
+      title: "Bread",
       price: 12,
     },
     {
       id: 3,
-      title: "fDAFSF",
+      title: "Bread",
       price: 323,
     },
     {
       id: 4,
-      title: "BreaFSDFd",
+      title: "Bread",
       price: 23,
     },
     {
       id: 5,
-      title: "ADFSD",
+      title: "Bread",
       price: 3454,
     },
   ];
-
-  res.render("Products", { products });
+  res.status(200).json(products);
 });
 
 router.get("/profile", (req, res) => {
-  //   res.status(200).json({ message: "Profile !" });
-
-  res.sendFile(path.join(__dirname, "views/profile.html"));
+  res.status(200).json({ message: "Profile !" });
 });
 
 module.exports = router;
