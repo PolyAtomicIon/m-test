@@ -4,55 +4,68 @@ const controller = require("./controller");
 const path = require("path");
 const data = require("./data.json");
 const fs = require("fs");
+var bodyParser = require("body-parser");
+
+var jsonParser = bodyParser.json();
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get("/", (req, res) => {
-  res.render("Home", { photos: data.photos });
+  const search = req.query.search || "";
+
+  res.render("Home", {
+    photos: data.photos.filter((p) => p.label.includes(search)),
+  });
 });
 
-// router.post("/add-photo", (req, res) => {
-//   const id = +req.params.id;
+router.post("/add-photo", urlencodedParser, (req, res) => {
+  // get data send from form
+  const { label, url } = req.body;
 
-//   const product = data.products.find((p) => p.id === id);
+  // console.log(label, url);
 
-//   if (data.cart.find((p) => p.id === id)) {
-//     res.redirect("/products");
-//     return;
-//   }
+  let id = Math.floor(Math.random() * 1000) + 1;
+  while (data.photos.find((p) => p.id === id)) {
+    id = Math.floor(Math.random() * 1000) + 1;
+  }
 
-//   data.cart.push(product);
+  data.photos.push({
+    id,
+    label,
+    url,
+  });
 
-//   fs.writeFile(
-//     "data.json",
-//     JSON.stringify({
-//       ...data,
-//     }),
-//     () => {
-//       res.redirect("/products");
-//     }
-//   );
-// });
+  fs.writeFile(
+    "data.json",
+    JSON.stringify({
+      ...data,
+    }),
+    () => {
+      res.redirect("/");
+    }
+  );
+});
 
-// router.get("/delete-photo/:id", (req, res) => {
-//   const id = +req.params.id;
+router.get("/delete-photo/:id", (req, res) => {
+  const id = +req.params.id;
 
-//   const product = data.products.find((p) => p.id === id);
+  const photo = data.photos.find((p) => p.id === id);
 
-//   if (!product) {
-//     res.redirect("/products");
-//     return;
-//   }
+  if (!photo) {
+    res.redirect("/");
+    return;
+  }
 
-//   data.cart = data.cart.filter((p) => p.id !== id);
+  data.photos = data.photos.filter((p) => p.id !== id);
 
-//   fs.writeFile(
-//     "data.json",
-//     JSON.stringify({
-//       ...data,
-//     }),
-//     () => {
-//       res.redirect("/products");
-//     }
-//   );
-// });
+  fs.writeFile(
+    "data.json",
+    JSON.stringify({
+      ...data,
+    }),
+    () => {
+      res.redirect("/");
+    }
+  );
+});
 
 module.exports = router;
