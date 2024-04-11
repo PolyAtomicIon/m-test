@@ -1,8 +1,8 @@
 mixin header()
-  ul.flex.border-b.border-gray-500.p-5.list-none.gap-2.absolute.top-0.left-0.w-full.shadow-md.bg-gray-100
+  ul.flex.p-5.list-none.gap-2.absolute.top-0.left-0.w-full.items-center
     li 
-      a(href="/").text-blue-500 Home 
+      a(href="/").text-black-500.font-bold My Unsplash 
     li 
-      a(href="/products").text-blue-500 products 
-    li 
-      a(href="/profile").text-blue-500 profile 
+      input(type="text" placeholder="Search" class="border border-gray-500 rounded-md p-1") 
+    li.ml-auto 
+      button(class="bg-emerald-500 text-white shadow-md rounded-md p-3") Add a photo 

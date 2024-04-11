@@ -6,65 +6,53 @@ const data = require("./data.json");
 const fs = require("fs");
 
 router.get("/", (req, res) => {
-  //   res.status(200).json({ message: "Hello world !" });
-
-  res.render("Home");
+  res.render("Home", { photos: data.photos });
 });
 
-router.get("/products", (req, res) => {
-  res.render("Products", { products: data.products, cart: data.cart });
-});
+// router.post("/add-photo", (req, res) => {
+//   const id = +req.params.id;
 
-router.get("/add-to-cart/:id", (req, res) => {
-  const id = +req.params.id;
+//   const product = data.products.find((p) => p.id === id);
 
-  const product = data.products.find((p) => p.id === id);
+//   if (data.cart.find((p) => p.id === id)) {
+//     res.redirect("/products");
+//     return;
+//   }
 
-  if (data.cart.find((p) => p.id === id)) {
-    res.redirect("/products");
-    return;
-  }
+//   data.cart.push(product);
 
-  data.cart.push(product);
+//   fs.writeFile(
+//     "data.json",
+//     JSON.stringify({
+//       ...data,
+//     }),
+//     () => {
+//       res.redirect("/products");
+//     }
+//   );
+// });
 
-  fs.writeFile(
-    "data.json",
-    JSON.stringify({
-      ...data,
-    }),
-    () => {
-      res.redirect("/products");
-    }
-  );
-});
+// router.get("/delete-photo/:id", (req, res) => {
+//   const id = +req.params.id;
 
-router.get("/delete-from-cart/:id", (req, res) => {
-  const id = +req.params.id;
+//   const product = data.products.find((p) => p.id === id);
 
-  const product = data.products.find((p) => p.id === id);
+//   if (!product) {
+//     res.redirect("/products");
+//     return;
+//   }
 
-  if (!product) {
-    res.redirect("/products");
-    return;
-  }
+//   data.cart = data.cart.filter((p) => p.id !== id);
 
-  data.cart = data.cart.filter((p) => p.id !== id);
-
-  fs.writeFile(
-    "data.json",
-    JSON.stringify({
-      ...data,
-    }),
-    () => {
-      res.redirect("/products");
-    }
-  );
-});
-
-router.get("/profile", (req, res) => {
-  //   res.status(200).json({ message: "Profile !" });
-
-  res.sendFile(path.join(__dirname, "views/profile.html"));
-});
+//   fs.writeFile(
+//     "data.json",
+//     JSON.stringify({
+//       ...data,
+//     }),
+//     () => {
+//       res.redirect("/products");
+//     }
+//   );
+// });
 
 module.exports = router;

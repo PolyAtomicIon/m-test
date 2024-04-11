@@ -1,1 +1,38 @@
-{"id":"Bekzat","products":[{"id":1,"title":"Bread","price":23},{"id":2,"title":"FDASF","price":12},{"id":3,"title":"fDAFSF","price":323},{"id":4,"title":"BreaFSDFd","price":23},{"id":5,"title":"ADFSD","price":3454}],"cart":[{"id":2,"title":"FDASF","price":12}]}
+{
+  "id": "Bekzat",
+  "products": [
+    { "id": 1, "title": "Bread", "price": 23 },
+    { "id": 2, "title": "FDASF", "price": 12 },
+    { "id": 3, "title": "fDAFSF", "price": 323 },
+    { "id": 4, "title": "BreaFSDFd", "price": 23 },
+    { "id": 5, "title": "ADFSD", "price": 3454 }
+  ],
+  "cart": [{ "id": 2, "title": "FDASF", "price": 12 }],
+  "photos": [
+    {
+      "id": 1,
+      "label": "Bread",
+      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 2,
+      "label": "FDASF",
+      "url": "https://images.unsplash.com/photo-1526512340740-9217d0159da9?q=80&w=2677&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 3,
+      "label": "fDAFSF",
+      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 4,
+      "label": "BreaFSDFd",
+      "url": "https://images.unsplash.com/photo-1526512340740-9217d0159da9?q=80&w=2677&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": 5,
+      "label": "ADFSD",
+      "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+  ]
+}

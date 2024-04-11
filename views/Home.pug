@@ -11,10 +11,18 @@ html
     title Home
     link(rel="stylesheet" href="/styles/hierarchy.css")
     script(src="https://cdn.tailwindcss.com")
+    script(src="/scripts/home.js")
 
   body
     div#root
       block layout-contents
         +header()
 
-        h1 Home
+        main.mt-20  
+          div(class='grid  gap-4 p-5 grid-cols-4 lg:grid-cols-5 xl:grid-cols-6') 
+            each photo in photos
+              div.m-5.relative.rounded-lg.shadow-lg.overflow-hidden.group
+                img(src=photo.url alt=photo.label)
+                div(class= "absolute opacity-0 group-hover:opacity-100 ease-in-out duration-300  top-0 left-0 w-full h-full bg-black/25")
+                  p.text-white.text-sm.absolute.p-5.bottom-0.left-0.w-full.m-0 #{photo.label}
+                  button( class="rounded-lg border border-red-500 px-2 py-1 text-red-500 absolute p-5 top-2 right-2 cursor-pointer" id=`${photo.id}` onclick="alert('fds')")   delete
